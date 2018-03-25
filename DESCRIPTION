@@ -1,0 +1,11 @@
+Package: npsr
+Type: Package
+Title: Validate Instrumental Variables using NPS
+Version: 0.1.0
+Author: Fabian Sellmann
+Maintainer: fa.sllmnnf@gmail.com
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
