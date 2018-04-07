@@ -9,6 +9,9 @@ nps.necessary(df)
 \arguments{
 \item{df}{Dataframe with z, x and y}
 }
+\value{
+FALSE if the data violates the constraints otherwise TRUE
+}
 \description{
 Tests the instrumental constraints on the given dataframe using entropy
 }

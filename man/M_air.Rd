@@ -7,13 +7,13 @@
 M_air(Q, l, m, n)
 }
 \arguments{
-\item{Q:}{Histogram of dataset (l\*m\*n vector)}
+\item{Q}{Histogram of dataset (l\*m\*n vector)}
 
-\item{l:}{|Z|}
+\item{l}{|Z|}
 
-\item{m:}{|X|}
+\item{m}{|X|}
 
-\item{n:}{|Y|}
+\item{n}{|Y|}
 }
 \value{
 The propability that the observations where created from

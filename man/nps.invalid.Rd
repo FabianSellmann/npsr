@@ -6,3 +6,15 @@
 \usage{
 nps.invalid(Q, l, m, n)
 }
+\arguments{
+\item{Q}{List of unique observations, should be l\*m\*n length}
+
+\item{l}{|Z|}
+
+\item{m}{|X|}
+
+\item{n}{|Y|}
+}
+\description{
+Calculates the ML_Invalid
+}

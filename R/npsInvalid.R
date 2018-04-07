@@ -1,5 +1,9 @@
-##'
 ##' @title M_Invalid
+##' @param  Q List of unique observations, should be l\*m\*n length
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
+##' @description Calculates the ML_Invalid
 nps.invalid = function(Q,l,m,n){
   air = M_air(Q,l,m,n)
   excl = M_excl(Q,l,m,n)
@@ -74,10 +78,10 @@ create_excl_vio_rxy = function(l,m,n){
 
 ##' @description Calculates the marginal likelihood M_air
 ##' @title M_air
-##' @param Q: Histogram of dataset (l\*m\*n vector)
-##' @param l: |Z|
-##' @param m: |X|
-##' @param n: |Y|
+##' @param Q Histogram of dataset (l\*m\*n vector)
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
 ##' @return The propability that the observations where created from
 ##' a model which violates the as-if-randmoness criterion but not the exclusion criterion
 M_air = function(Q, l,m,n){
@@ -86,10 +90,10 @@ M_air = function(Q, l,m,n){
 }
 ##' @description Calculates the marginal likelihood M_air_excel
 ##' @title m_air
-##' @param Q: Histogram of dataset (l\*m\*n vector)
-##' @param l: |Z|
-##' @param m: |X|
-##' @param n: |Y|
+##' @param Q Histogram of dataset (l\*m\*n vector)
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
 ##' @return The propability that the observations where created from
 ##' a model which violates the as-if-randmoness criterion but not the exclusion criterion
 M_air_excl = function(Q, l,m,n){

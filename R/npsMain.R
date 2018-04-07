@@ -1,9 +1,11 @@
 ##' Main function of the package.
 ##' @param df Dataframe with columns z,x and y
-##' @l Number of bins used to discretize Z
-##' @m Number of bins used to discretize X
-##' @n Number of bins used to discretize Y
-##' @return result object of the test
+##' @param l Number of bins used to discretize Z
+##' @param m Number of bins used to discretize X
+##' @param n Number of bins used to discretize Y
+##' @return result object of the test whith the fields: nt, valid, invalid, ratio
+##' @export
+##' @import stats infotheo MASS
 nps.test = function(df,l,m,n){
   # Discretize values with given dimensions
   dx = unname(unlist(discretize(df$x,nbins=m, disc="equalwidth")))
@@ -22,7 +24,7 @@ nps.test = function(df,l,m,n){
   })
 
   invalid = nps.invalid(Q,l,m,n)
-  valid = M_Valid(Q,l,m,n)
+  valid = nps.valid(Q,l,m,n)
 
   ratio = valid/invalid$max
   result = merge(nt, merge(valid, merge(invalid, ratio)))

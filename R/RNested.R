@@ -2,14 +2,7 @@
 # Bojan Nikolic <bojan@bnikolic.co.uk>
 # Nested sampling, implemented in R
 
-##' Create a starting set based on a box prior
-##'
-##' @title sset.box
-##' @param box Matrix with boundaries of the box
-##' @param nss Number of elements of starting set
-##' @param llfn Function to initilalise the log-likelihod
-##' @return The starting set as a frame
-##' @author bnikolic
+#author bnikolic
 sset.box <- function(box, nss,
                      llfn)
   {
@@ -27,13 +20,7 @@ sset.box <- function(box, nss,
                nss)
     data.frame(p=I(p), ll=ll, lpr=lpr)
   }
-
-##' Create a function that will accept or reject proposals for the new sample
-##'
-##' @title mkPriorSamplePred
-##' @param s Row of the live set which is being replaced
-##' @return The predicate function
-##' @author bnikolic
+#author bnikolic
 mkPriorSamplePred <- function(s)
 {
   function(ll, lp)
@@ -62,15 +49,7 @@ mkPriorSamplePred <- function(s)
         }
     }
 }
-
-##' Rectangular offseting with user supplied scales, pretty much the
-##' simplest offsetter
-##'
-##' @title rectOffseter
-##' @param scale  Array of scales (one for each parameter of the
-##' problem) for generation of the offsets
-##' @return Function that generates the offset
-##' @author bnikolic
+# bnikolic
 rectOffseter <- function(scale)
   {
     function()
@@ -79,13 +58,7 @@ rectOffseter <- function(scale)
       }
   }
 
-
-##' Return a random element of the live set
-##'
-##' @title randomEl
-##' @param cs The live (or current) set
-##' @return The selected element
-##' @author bnikolic
+#author bnikolic
 randomEl <- function(cs)
   {
     N <- dim(cs)[1]
@@ -100,25 +73,7 @@ mkFixedRectProp <- function(scales)
         x+off()
       }
   }
-
-##' Constrained Prior Sampler using modified MCMC
-##'
-##' Note that the performance of the overal nested sampler is close to
-##' linearly dependent on the value of the parameter n. When  a good
-##' proposer (in the sense that it proposes that are uncorrelated with
-##' the starting or existing points but tend to satisfy the likelihood
-##' constraint) for new points is used this value of n can be reduced
-##' leading to better performance.
-##'
-##' @title CPChain
-##' @param s The starting point
-##' @param proposer Function to propose new points
-##' @param n Number of steps to make
-##' @param llf Log-likelihood function
-##' @param lpf Log-prior function
-##' @param cs Live (or current) set
-##' @return Either the new point or if new point was not found FALSE
-##' @author bnikolic
+#author bnikolic
 CPChain <- function(s,
                     proposer,
                     n,
@@ -166,15 +121,7 @@ mkSimplestPSampler <- function(s)
                                          cs)
                                }
   }
-
-##' Use the covariance of the points in the live set to determine the
-##' scales for sampling the prior space
-##'
-##' @title mkCovarianceSampler
-##' @param s Scale the covariances of the live set by this factor
-##' before using them for sampling
-##' @return Constrained prior sampler
-##' @author bnikolic
+#author bnikolic
 mkCovarianceSampler <- function(s=1.0)
   {
     cvm <- 0
@@ -196,16 +143,7 @@ mkCovarianceSampler <- function(s=1.0)
     }
   }
 
-
-##' Create a box prior function
-##'
-##' The prior function returned takes position in parameter space as
-##' an argument and returns log-prior probability. Value of -998 is
-##' returned outside the box and 0 inside the box
-##' @title boxp
-##' @param box The box inside which the prior probability is finite
-##' @return Box prior function
-##' @author bnikolic
+#author bnikolic
 boxp <- function(box)
   {
     ff <- function (x)
@@ -219,16 +157,7 @@ boxp <- function(box)
       }
     return(ff)
   }
-
-##' Take one step of the nested sampler
-##'
-##' @title nested.step
-##' @param cs The current (live) set
-##' @param llf Log-likelihood function
-##' @param lpf Log-prior function
-##' @param psampler The prior space sampler
-##' @return list (new current set, eliminated row)
-##' @author bnikolic
+#author bnikolic
 nested.step <- function(cs,
                         llf, lpf,
                         psampler)
@@ -246,32 +175,7 @@ nested.step <- function(cs,
       return (list(cs, worst));
       }
   }
-
-##' Do nested sampling of the suplied pair of log-likelihood and prior
-##' probability functions
-##'
-##' This function is the top-level driver for the nested sampling
-##' algorithm. It requires preparation of a starting set (using for
-##' example sset.box) and a constrained prior space sampler (using for
-##' example mkCovarianceSampler). It allows restart of the sampling if
-##' inspection of outputs shows that the sampler may not have
-##' converged
-##' @title nested.sample
-##' @param cs The current/live/starting set of poings
-##' @param llf  The log-likelihood function (which should take one
-##' argument which is the point in parameter space at which to evalue
-##' the likelihood)
-##' @param lpf the log-prior probability function (which should take
-##' one argument, which is the point in parameter sample)
-##' @param psampler The prior sampler to use to advance find sample a
-##' new point  from the prior space
-##' @param cout Optional parameter which is the output of a previous
-##' run of the nested sampler. Allows easy restart of the algorithm
-##' @param N Number of samples to make
-##' @return List of the live set  and the output of nested
-##' sampling. See nested.summary and nested.hist2 on how to interpret
-##' the output
-##' @author bnikolic
+#author bnikolic
 nested.sample <- function(cs,
                           llf, lpf,
                           psampler,

@@ -8,9 +8,15 @@ nps.test(df, l, m, n)
 }
 \arguments{
 \item{df}{Dataframe with columns z,x and y}
+
+\item{l}{Number of bins used to discretize Z}
+
+\item{m}{Number of bins used to discretize X}
+
+\item{n}{Number of bins used to discretize Y}
 }
 \value{
-result object of the test
+result object of the test whith the fields: nt, valid, invalid, ratio
 }
 \description{
 Main function of the package.

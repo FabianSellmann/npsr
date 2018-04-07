@@ -12,7 +12,10 @@ estimate_integral(N, S, d, llf, sample_theta)
 \item{S}{Number of Starting Points}
 
 \item{d}{number of dimension of point}
+
+\item{llf}{log likelihood function}
 }
-\value{
-Estimated Integral of the likelihood functions over points using nested sampling
+\description{
+Estimates mutidimensional integral using nested sampling.
 }
+\keyword{internal}

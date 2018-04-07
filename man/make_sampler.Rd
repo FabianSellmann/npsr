@@ -2,7 +2,7 @@
 % Please edit documentation in R/npsCommon.R
 \name{make_sampler}
 \alias{make_sampler}
-\title{Creates a sampler function which finds a new point with a higher log likelihood.}
+\title{make_sampler}
 \usage{
 make_sampler(d, s, sample_theta)
 }
@@ -17,3 +17,4 @@ Sampler function which tries to find a point with a higher likelihood than the g
 \description{
 Creates a sampler function which finds a new point with a higher log likelihood.
 }
+\keyword{internal}

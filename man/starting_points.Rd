@@ -14,3 +14,4 @@ starting_points(N, d, sample_theta)
 \description{
 Creates a set of N starting Points for theta Z
 }
+\keyword{internal}

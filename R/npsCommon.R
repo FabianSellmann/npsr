@@ -1,5 +1,11 @@
-##'
-##'
+##' @keywords internal
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
+##' @param Rxy Matrix of response function indicators
+##' @param y_zx_dependent If set to true P will be calculated assuming Y is dependent on z and x, otherwise will assume y is only dependent on x.
+##' @title Create_P
+##' @description Creates a l\*m\*n x (m^l)\*(n^m) dimensional matrix if y_zx_dependent = FAlSE, creates l\*m\*n x (m^l)\*((n^m)+1) dimension matrix otherwise.
 Create_P = function(l,m,n, Rxy, y_zx_depenendent = FALSE){
   # Vector of all possible Observations (Q and ZXY have to relate to the same indices)
   ZXY = expand.grid((1:l), (1:m), (1:n)) # l*m*n x 3 matrix
@@ -34,13 +40,13 @@ Create_P = function(l,m,n, Rxy, y_zx_depenendent = FALSE){
   })
 }
 
-
+##' @keywords internal
 ##' @title estimate_integral
 ##' @param N Number of Repetitions
 ##' @param S Number of Starting Points
 ##' @param d number of dimension of point
-##' @llf log likelihood function
-##' @return Estimated Integral of the likelihood functions over points using nested sampling
+##' @param llf log likelihood function
+##' @description Estimates mutidimensional integral using nested sampling.
 estimate_integral = function(N,S,d,llf,sample_theta){
   lpf = function(t) 1 # Prior is uniform, thus constant
 
@@ -57,8 +63,8 @@ estimate_integral = function(N,S,d,llf,sample_theta){
   evidence = evidence+ (exp(-N/S) * sum(exp(cs$ll))/N)
   return (evidence)
 }
-
-##' Creates a set of N starting Points for theta Z
+##' @keywords internal
+##' @description Creates a set of N starting Points for theta Z
 ##' @title starging_points
 ##' @param N number of samples
 ##' @param d number of dimensions
@@ -67,16 +73,16 @@ starting_points = function(N, d, sample_theta){
   sp = apply(t(sp), 2, sample_theta)
   return (sp)
 }
-##'
-##'
-##'
+
 make_proposer = function(d, sample_theta){
   proposer = function(current){
     return (sample_theta(d))
   }
   return (proposer)
 }
-##' Creates a sampler function which finds a new point with a higher log likelihood.
+##' @keywords internal
+##' @description Creates a sampler function which finds a new point with a higher log likelihood.
+##' @title make_sampler
 ##' @param d Dimensions of point
 ##' @param s Number of mcmc walker steps
 ##' @return Sampler function which tries to find a point with a higher likelihood than the given point

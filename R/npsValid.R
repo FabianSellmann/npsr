@@ -1,11 +1,12 @@
-
-##' @param Q: Histogram of dataset (l*m*n vector)
-##' @param l: |Z|
-##' @param m: |X|
-##' @param n: |Y|
-##' @param N: Number of Repetitions for Nested Sampling
-##' @param S: Number of Starting Points for Nested Sampling
-M_Valid = function(Q, l, m, n, N = sum(Q), S = sum(Q)){
+##' @title nps.valid
+##' @param Q Histogram of dataset (l*m*n vector)
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
+##' @param N Number of Repetitions for Nested Sampling
+##' @param S Number of Starting Points for Nested Sampling
+##' @description Calculates M_Valid
+nps.valid = function(Q, l, m, n, N = sum(Q), S = sum(Q)){
   Rx = expand.grid(rep(list(1:m),l)) # m^l x l matrix
   Ry = expand.grid(rep(list(1:n),m )) #n^m x m matrix
   Rxy = cbind(Rx[rep(1:nrow(Rx), nrow(Ry)),],
@@ -33,11 +34,7 @@ Z_product = function(theta_z, Q){
   product = prod(powered)
   return (product)
 }
-# a1[rep(1:nrow(a2), nrow(a2)),]
 
-##' Create a sample for theta
-##' @title sample_theta
-##' @param d number of dimensions of theta vector
 sample_theta = function(d){
   t = runif(d)
   t = t/sum(t) #make sure that all probablities add up one
