@@ -1,1 +1,2 @@
+import(infotheo, MASS, stats)
 export(nps.test)

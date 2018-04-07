@@ -27,12 +27,6 @@ M_Valid = function(Q, l, m, n, N = sum(Q), S = sum(Q)){
   return (Int_z*Int_xy)
 }
 
-XY_product = function(theta_xy, P, Q){
-  sums = unlist(theta_xy) %*% P
-  powered_sums = sums ^ Q
-  product = prod(powered_sums)
-  return (product)
-}
 #theta_z should be repeated to be l*m*n dimensions
 Z_product = function(theta_z, Q){
   powered = unlist(theta_z)^Q

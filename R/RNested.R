@@ -1,8 +1,6 @@
+# Taken from as we need a function that is not exported: https://github.com/bnikolic/RNested/blob/master/R/RNested.R
 # Bojan Nikolic <bojan@bnikolic.co.uk>
 # Nested sampling, implemented in R
-
-library(MASS)
-
 
 ##' Create a starting set based on a box prior
 ##'
@@ -18,7 +16,7 @@ sset.box <- function(box, nss,
     p <- apply(box,
                2,
                function(r) {
-                 runif(nss, min=r[[1]], max=r[[2]]) 
+                 runif(nss, min=r[[1]], max=r[[2]])
                })
     # Also calculate the likelihood and set prior probability for all
     # the points in the starting set
@@ -111,11 +109,11 @@ mkFixedRectProp <- function(scales)
 ##' the starting or existing points but tend to satisfy the likelihood
 ##' constraint) for new points is used this value of n can be reduced
 ##' leading to better performance.
-##' 
+##'
 ##' @title CPChain
 ##' @param s The starting point
 ##' @param proposer Function to propose new points
-##' @param n Number of steps to make 
+##' @param n Number of steps to make
 ##' @param llf Log-likelihood function
 ##' @param lpf Log-prior function
 ##' @param cs Live (or current) set
@@ -175,7 +173,7 @@ mkSimplestPSampler <- function(s)
 ##' @title mkCovarianceSampler
 ##' @param s Scale the covariances of the live set by this factor
 ##' before using them for sampling
-##' @return Constrained prior sampler 
+##' @return Constrained prior sampler
 ##' @author bnikolic
 mkCovarianceSampler <- function(s=1.0)
   {
@@ -227,7 +225,7 @@ boxp <- function(box)
 ##' @title nested.step
 ##' @param cs The current (live) set
 ##' @param llf Log-likelihood function
-##' @param lpf Log-prior function 
+##' @param lpf Log-prior function
 ##' @param psampler The prior space sampler
 ##' @return list (new current set, eliminated row)
 ##' @author bnikolic
@@ -266,7 +264,7 @@ nested.step <- function(cs,
 ##' @param lpf the log-prior probability function (which should take
 ##' one argument, which is the point in parameter sample)
 ##' @param psampler The prior sampler to use to advance find sample a
-##' new point  from the prior space 
+##' new point  from the prior space
 ##' @param cout Optional parameter which is the output of a previous
 ##' run of the nested sampler. Allows easy restart of the algorithm
 ##' @param N Number of samples to make
@@ -294,7 +292,7 @@ nested.sample <- function(cs,
         cout <- rbind(cout, data.frame(c(r[[2]][1,], w=weight)))
       }
     return (list(cs=cs, cout=data.frame(cout,
-                          row.names=NULL)));    
+                          row.names=NULL)));
   }
 
 

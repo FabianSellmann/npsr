@@ -1,6 +1,10 @@
 ##' Main function of the package.
 ##' @param df Dataframe with columns z,x and y
-nps.test = function(df,l,m,n,alpha){
+##' @l Number of bins used to discretize Z
+##' @m Number of bins used to discretize X
+##' @n Number of bins used to discretize Y
+##' @return result object of the test
+nps.test = function(df,l,m,n){
   # Discretize values with given dimensions
   dx = unname(unlist(discretize(df$x,nbins=m, disc="equalwidth")))
   dy = unname(unlist(discretize(df$y,nbins=m, disc="equalwidth")))
@@ -8,7 +12,7 @@ nps.test = function(df,l,m,n,alpha){
 
   ddf = data.frame(z = dz, x = dx, y = dy)
 
-  nt = testIC(ddf);
+  nt = nps.necessary(ddf);
   if(!nt$passed) return(FALSE)
 
   ZXY = expand.grid((1:l), (1:m), (1:n))
@@ -17,7 +21,7 @@ nps.test = function(df,l,m,n,alpha){
      return (qi)
   })
 
-  invalid = M_Invalid(Q,l,m,n)
+  invalid = nps.invalid(Q,l,m,n)
   valid = M_Valid(Q,l,m,n)
 
   ratio = valid/invalid$max

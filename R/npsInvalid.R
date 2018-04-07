@@ -1,8 +1,6 @@
-library(parallel)
-
 ##'
 ##' @title M_Invalid
-M_Invalid = function(Q,l,m,n){
+nps.invalid = function(Q,l,m,n){
   air = M_air(Q,l,m,n)
   excl = M_excl(Q,l,m,n)
   air_excl = M_air_excl(Q,l,m,n)
@@ -11,12 +9,6 @@ M_Invalid = function(Q,l,m,n){
   return(list(air = air,excl = excl ,air_excl = air_excl, max = max))
 }
 M_excl = function(Q,l,m,n,N = sum(Q), S = sum(Q)){
-  # Calculate the number of cores
-  no_cores <- detectCores() - 1
-  # Initiate cluster
-  cl <- makeCluster(no_cores)
-  clusterCall(cl, function() { source("npsCommon.R") })
-
   # Create all Rxy which violates the exclusion criterion
   h = create_excl_vio_rxy(l,m,n)
   #valid Rxy
@@ -40,10 +32,8 @@ M_excl = function(Q,l,m,n,N = sum(Q), S = sum(Q)){
     t = t/sum(t) #make sure that all probablities add up to one
     return (list(t))
   }
-  # add out theta samplers to the cluster
-  clusterExport(cl, list("sample_theta_xy", "sample_theta_z"), envir=environment())
 
-  integers = parApply(cl,h, 1, function(hi){
+  integers = apply(h, 1, function(hi){
     Ry_hi = rbind(Ry, t(data.matrix(hi, rownames.force = NA)));
     Rxy = cbind(Rx[rep(1:nrow(Rx), nrow(Ry_hi)),],
                 Ry_hi[rep(1:nrow(Ry_hi), each = nrow(Rx)),]) # ((n^m)+1)*(m^l) x l+m*l matrix
@@ -66,7 +56,6 @@ M_excl = function(Q,l,m,n,N = sum(Q), S = sum(Q)){
     return(Int_z * Int_xy)
 
   })
-  stopCluster(cl)
   return (max(integers))
 }
 create_excl_vio_rxy = function(l,m,n){
