@@ -17,7 +17,7 @@ M_air(Q, l, m, n)
 }
 \value{
 The propability that the observations where created from
-a model which violates the as-if-randmoness criterion but not the exclusion criterion
+a model which violates the as-if-randomness criterion but not the exclusion criterion
 }
 \description{
 Calculates the marginal likelihood M_air

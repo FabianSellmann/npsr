@@ -20,7 +20,7 @@ M_excl(Q, l, m, n, N = sum(Q), S = sum(Q))
 \item{S}{Number of Starting Points for Nested Sampling}
 }
 \value{
-The propability that the observations where created from a model which violates the exclusion criterion but not the as-if-randmoness criterion
+The probability that the observations where created from a model which violates the exclusion criterion but not the as-if-randomness criterion
 }
 \description{
 Calculates the marginal likelihood of M_excl

@@ -16,6 +16,6 @@ estimate_integral(N, S, d, llf, sample_theta)
 \item{llf}{log likelihood function}
 }
 \description{
-Estimates mutidimensional integral using nested sampling.
+Estimates multidimensional integral using nested sampling.
 }
 \keyword{internal}

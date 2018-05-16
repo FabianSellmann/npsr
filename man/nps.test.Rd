@@ -20,7 +20,7 @@ nps.test(df, l, m, n, N, S)
 \item{S}{Number of Starting Points for Nested Sampling}
 }
 \value{
-result object of the test whith the fields: nt, valid, invalid, ratio
+result object of the test including the fields: nt, valid, invalid, ratio
 }
 \description{
 Main function of the package.
