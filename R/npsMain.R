@@ -8,6 +8,8 @@
 ##' @return result object of the test including the fields: nt, valid, invalid, ratio
 ##' @export
 ##' @import stats infotheo MASS gmp
+##' @examples
+##' nps.test(data.frame(x = runif(20), y = runif(20), z = runif(20)), 3,3,3, 100, 200)
 nps.test = function(df,l,m,n, N, S){
   # Discretize values with given dimensions
   dx = unname(unlist(discretize(df$x,nbins=m, disc="equalwidth")))
