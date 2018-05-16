@@ -16,7 +16,7 @@ M_air(Q, l, m, n)
 \item{n}{|Y|}
 }
 \value{
-The propability that the observations where created from
+The probability that the observations where created from
 a model which violates the as-if-randomness criterion but not the exclusion criterion
 }
 \description{
