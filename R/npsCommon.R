@@ -46,7 +46,7 @@ Create_P = function(l,m,n, Rxy, y_zx_depenendent = FALSE){
 ##' @param S Number of Starting Points
 ##' @param d number of dimension of point
 ##' @param llf log likelihood function
-##' @description Estimates mutidimensional integral using nested sampling.
+##' @description Estimates multidimensional integral using nested sampling.
 estimate_integral = function(N,S,d,llf,sample_theta){
   lpf = function(t) 1 # Prior is uniform, thus constant
 
