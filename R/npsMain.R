@@ -9,7 +9,7 @@
 ##' @export
 ##' @import stats infotheo MASS gmp
 ##' @examples
-##' nps.test(data.frame(x = runif(20), y = runif(20), z = runif(20)), 3,3,3, 100, 200)
+##' nps.test(data.frame(x = runif(5), y = runif(5), z = runif(5)),2,2,3, 6, 6)
 nps.test = function(df,l,m,n, N, S){
   # Discretize values with given dimensions
   dx = unname(unlist(discretize(df$x,nbins=m, disc="equalwidth")))
@@ -26,10 +26,10 @@ nps.test = function(df,l,m,n, N, S){
      qi = sum(ddf$z == row[1] & ddf$x == row[2] & ddf$y == row[3])
      return (qi)
   })
-  if(!exists("N")){
+  if(missing(N)){
     N = sum(Q)
   }
-  if(!exists("S")){
+  if(missing(S)){
     S = sum(Q)
   }
   invalid = nps.invalid(Q,l,m,n)

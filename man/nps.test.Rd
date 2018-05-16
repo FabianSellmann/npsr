@@ -26,5 +26,5 @@ result object of the test including the fields: nt, valid, invalid, ratio
 Main function of the package.
 }
 \examples{
-nps.test(data.frame(x = runif(20), y = runif(20), z = runif(20)), 3,3,3, 100, 200)
+nps.test(data.frame(x = runif(5), y = runif(5), z = runif(5)),2,2,3, 6, 6)
 }

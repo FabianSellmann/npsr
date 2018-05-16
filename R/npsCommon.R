@@ -80,7 +80,12 @@ starting_points = function(N, d, sample_theta){
 ##' @param N function to sample new theta
 make_proposer = function(d, sample_theta){
   proposer = function(current){
-    return (sample_theta(d))
+    step_size = 0.1 * 1/d #how big the next step in the space should be
+    step_sample = unlist(sample_theta(d)); #directions for next step
+    step_sample = step_sample / step_size # scaled step according to step_size
+    new_sample = unlist(current) + step_sample
+    new_sample = new_sample/sum(new_sample) # normalized to sum 1
+    return (list(new_sample))
   }
   return (proposer)
 }
