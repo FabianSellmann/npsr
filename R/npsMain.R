@@ -5,7 +5,7 @@
 ##' @param n Number of bins used to discretize Y
 ##' @param N Number of Repetitions for Nested Sampling
 ##' @param S Number of Starting Points for Nested Sampling
-##' @return result object of the test whith the fields: nt, valid, invalid, ratio
+##' @return result object of the test including the fields: nt, valid, invalid, ratio
 ##' @export
 ##' @import stats infotheo MASS gmp
 nps.test = function(df,l,m,n, N, S){

@@ -22,7 +22,7 @@ nps.invalid = function(Q,l,m,n, N = sum(Q), S = sum(Q)){
 ##' @param n |Y|
 ##' @param N Number of Repetitions for Nested Sampling
 ##' @param S Number of Starting Points for Nested Sampling
-##' @return The propability that the observations where created from a model which violates the exclusion criterion but not the as-if-randmoness criterion
+##' @return The probability that the observations where created from a model which violates the exclusion criterion but not the as-if-randomness criterion
 M_excl = function(Q,l,m,n,N = sum(Q), S = sum(Q)){
   # Create all Rxy which violates the exclusion criterion
   h = create_excl_vio_rxy(l,m,n)
