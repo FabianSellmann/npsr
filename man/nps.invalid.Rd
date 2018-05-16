@@ -4,7 +4,7 @@
 \alias{nps.invalid}
 \title{M_Invalid}
 \usage{
-nps.invalid(Q, l, m, n)
+nps.invalid(Q, l, m, n, N = sum(Q), S = sum(Q))
 }
 \arguments{
 \item{Q}{List of unique observations, should be l\*m\*n length}
@@ -14,6 +14,10 @@ nps.invalid(Q, l, m, n)
 \item{m}{|X|}
 
 \item{n}{|Y|}
+
+\item{N}{Number of Repetitions for Nested Sampling}
+
+\item{S}{Number of Starting Points for Nested Sampling}
 }
 \description{
 Calculates the ML_Invalid

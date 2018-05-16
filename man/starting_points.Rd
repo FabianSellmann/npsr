@@ -2,7 +2,7 @@
 % Please edit documentation in R/npsCommon.R
 \name{starting_points}
 \alias{starting_points}
-\title{starging_points}
+\title{starting_points}
 \usage{
 starting_points(N, d, sample_theta)
 }

@@ -3,15 +3,26 @@
 ##' @param l |Z|
 ##' @param m |X|
 ##' @param n |Y|
+##' @param N Number of Repetitions for Nested Sampling
+##' @param S Number of Starting Points for Nested Sampling
 ##' @description Calculates the ML_Invalid
-nps.invalid = function(Q,l,m,n){
+nps.invalid = function(Q,l,m,n, N = sum(Q), S = sum(Q)){
   air = M_air(Q,l,m,n)
-  excl = M_excl(Q,l,m,n)
+  excl = M_excl(Q,l,m,n, N, S)
   air_excl = M_air_excl(Q,l,m,n)
   max = max(c(air,excl,air_excl))
 
   return(list(air = air,excl = excl ,air_excl = air_excl, max = max))
 }
+##' @description Calculates the marginal likelihood of M_excl
+##' @title M_excl
+##' @param Q Histogram of dataset (l\*m\*n vector)
+##' @param l |Z|
+##' @param m |X|
+##' @param n |Y|
+##' @param N Number of Repetitions for Nested Sampling
+##' @param S Number of Starting Points for Nested Sampling
+##' @return The propability that the observations where created from a model which violates the exclusion criterion but not the as-if-randmoness criterion
 M_excl = function(Q,l,m,n,N = sum(Q), S = sum(Q)){
   # Create all Rxy which violates the exclusion criterion
   h = create_excl_vio_rxy(l,m,n)
@@ -98,17 +109,17 @@ M_air = function(Q, l,m,n){
 ##' a model which violates the as-if-randmoness criterion but not the exclusion criterion
 M_air_excl = function(Q, l,m,n){
   b = (l*(m^l)*(n^(m*l))) / length(Q)
-  result = I_optimized(Q,b)
+  result = I_naive(Q,b)
 }
 
-I_naive = function(Q,l,m,n){
-  b = (l*m^l*n^m)/(l*m*n)
-  numerator = prod(unlist(lapply((Q+b), gamma)))
-  denom_gsum = factorial((sum(Q+4)+1))
-  denom_gQ = gamma(b)^(l*m*n);
-  result = numerator/denom_gsum;
-  result = result/denom_gQ;
-  return (result)
+I_naive = function(Q,b){
+  a = length(q)
+  b = as.bigz(b)
+  numerator = prod(apply(as.matrix(Q+b),1, gamma))
+  denom_gsum = factorial((sum(Q+as.bigz(4))))
+  denom_gQ = gamma(as.bigz(b))^(a);
+  result = numerator/(denom_gsum * denom_gQ);
+  return (as.numeric(result));
 }
 I_optimized = function(Q,b){
   q_max = max(Q)
@@ -118,7 +129,7 @@ I_optimized = function(Q,b){
 
   numerator = prod(unlist(lapply((Q_num+b), gamma)))
 
-  d_sum_upper = sum(Q+4)+1
+  d_sum_upper = sum(Q+4)
   d_sum_lower = q_max+b
   d_gb = gamma(b)^length(Q)
 

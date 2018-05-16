@@ -4,7 +4,7 @@
 \alias{nps.test}
 \title{Main function of the package.}
 \usage{
-nps.test(df, l, m, n)
+nps.test(df, l, m, n, N, S)
 }
 \arguments{
 \item{df}{Dataframe with columns z,x and y}
@@ -14,6 +14,10 @@ nps.test(df, l, m, n)
 \item{m}{Number of bins used to discretize X}
 
 \item{n}{Number of bins used to discretize Y}
+
+\item{N}{Number of Repetitions for Nested Sampling}
+
+\item{S}{Number of Starting Points for Nested Sampling}
 }
 \value{
 result object of the test whith the fields: nt, valid, invalid, ratio

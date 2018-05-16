@@ -65,7 +65,7 @@ estimate_integral = function(N,S,d,llf,sample_theta){
 }
 ##' @keywords internal
 ##' @description Creates a set of N starting Points for theta Z
-##' @title starging_points
+##' @title starting_points
 ##' @param N number of samples
 ##' @param d number of dimensions
 starting_points = function(N, d, sample_theta){
@@ -73,7 +73,11 @@ starting_points = function(N, d, sample_theta){
   sp = apply(t(sp), 2, sample_theta)
   return (sp)
 }
-
+##' @keywords internal
+##' @description Creates a function which proposes new random theta.
+##' @title make_proposer
+##' @param d number of dimensions of theta
+##' @param N function to sample new theta
 make_proposer = function(d, sample_theta){
   proposer = function(current){
     return (sample_theta(d))
@@ -93,7 +97,12 @@ make_sampler = function(d,s,sample_theta){
     return (found)
   }
 }
-
+##' @keywords internal
+##' @description Calculate the product of theta sums to the power of Qi over Q.
+##' @title XY_product
+##' @param theta_xy probability vector for response variables
+##' @param P Probability matrix
+##' @param Q Histogram of unique observations
 XY_product = function(theta_xy, P, Q){
   factor = ncol(P)/length(theta_xy);
   sums = P %*% theta_xy
@@ -101,7 +110,11 @@ XY_product = function(theta_xy, P, Q){
   product = prod(powered_sums)
   return (product)
 }
-#theta_z should be repeated to be l*m*n dimensions
+##' @keywords internal
+##' @description Calculate the product of theta to power of Qi over Q.
+##' @title Z_product
+##' @param theta_z probability vector
+##' @param Q Histogram of unique observations
 Z_product = function(theta_z, Q){
   powered = unlist(theta_z)^Q
   product = prod(powered)
