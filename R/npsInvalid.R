@@ -93,7 +93,7 @@ create_excl_vio_rxy = function(l,m,n){
 ##' @param l |Z|
 ##' @param m |X|
 ##' @param n |Y|
-##' @return The propability that the observations where created from
+##' @return The probability that the observations where created from
 ##' a model which violates the as-if-randomness criterion but not the exclusion criterion
 M_air = function(Q, l,m,n){
   b = (l*(m^l)*((n)^m)) / length(Q)
@@ -105,7 +105,7 @@ M_air = function(Q, l,m,n){
 ##' @param l |Z|
 ##' @param m |X|
 ##' @param n |Y|
-##' @return The propability that the observations where created from
+##' @return The probability that the observations where created from
 ##' a model which violates the as-if-randomness criterion but not the exclusion criterion
 M_air_excl = function(Q, l,m,n){
   b = (l*(m^l)*(n^(m*l))) / length(Q)
