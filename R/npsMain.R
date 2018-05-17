@@ -9,7 +9,7 @@
 ##' @export
 ##' @import stats infotheo MASS gmp
 ##' @examples
-##' nps.test(data.frame(x = runif(5), y = runif(5), z = runif(5)),2,2,3, 6, 6)
+##' nps.test(data.frame(x = runif(3), y = runif(3), z = runif(3)),2,2,2, 3, 3)
 nps.test = function(df,l,m,n, N, S){
   # Discretize values with given dimensions
   dx = unname(unlist(discretize(df$x,nbins=m, disc="equalwidth")))
