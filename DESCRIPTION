@@ -1,7 +1,7 @@
 Package: npsr
 Type: Package
 Title: Validate Instrumental Variables using NPS
-Version: 0.1.0
+Version: 0.1.1
 Author: Fabian Sellmann
 Maintainer: Fabian Sellmann <fa.sllmnn@gmail.com>
 Description: An R implementation of the nps algorithm to validate instrumental variables as suggested by Amit Sharma.   
