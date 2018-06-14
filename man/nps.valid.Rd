@@ -4,7 +4,7 @@
 \alias{nps.valid}
 \title{nps.valid}
 \usage{
-nps.valid(Q, l, m, n, N = sum(Q), S = sum(Q))
+nps.valid(Q, l, m, n, N = sum(Q), S = sum(Q), int_z)
 }
 \arguments{
 \item{Q}{Histogram of dataset (l*m*n vector)}
@@ -18,6 +18,8 @@ nps.valid(Q, l, m, n, N = sum(Q), S = sum(Q))
 \item{N}{Number of Repetitions for Nested Sampling}
 
 \item{S}{Number of Starting Points for Nested Sampling}
+
+\item{int_z}{Precalculated Integer of the product over theta_z}
 }
 \description{
 Calculates M_Valid

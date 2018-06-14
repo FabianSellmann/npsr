@@ -73,41 +73,41 @@ mkFixedRectProp <- function(scales)
         x+off()
       }
   }
-#author bnikolic
-CPChain <- function(s,
-                    proposer,
-                    n,
-                    llf, lpf,
-                    cs)
-  {
+#author bnikolic, added
+CPChain <- function(s,proposer, n,llf, lpf,cs){
     pred <- mkPriorSamplePred(s)
     pcurr <- randomEl(cs)$p
     ll <- 0
     lp <- 0
-    r <- sapply(1:n, function(x) {
-      pnew <- proposer(pcurr)
-      llnew <- llf(pnew)
-      lpnew <- lpf(pnew)
-      if (pred(llnew, lpnew))
+    i <- 0
+    repeat{
+      r <- sapply(1:n, function(x) {
+        pnew <- proposer(pcurr)
+        llnew <- llf(pnew)
+        lpnew <- lpf(pnew)
+        if (pred(llnew, lpnew))
         {
           pcurr <<- pnew
           ll <<- llnew
           lp <<- lpnew
           return (TRUE);
         }
-      else
+        else
         {
           return (FALSE);
         }
-    })
-    if( any(r) )
+      })
+      if( any(r) )
       {
         return (list(p=pcurr, ll=ll, lpr=lp));
       }
-    else
-      {
-      return (FALSE);
+      i <- i +1
+      if(i > 100){
+        break;
+      }
     }
+    print("Nested Sampling: Sampler could not find new point with higher likelihood")
+    return (FALSE);
   }
 
 mkSimplestPSampler <- function(s)
@@ -182,8 +182,9 @@ nested.sample <- function(cs,
                           cout=rbind(),
                           N=1)
   {
-    for (i in 1:N)
-      {
+  changefactors = c();
+  previous_evidence = 0;
+    repeat{
         r <- nested.step(cs, llf, lpf, psampler)
         if (identical(r,FALSE))
           break;
@@ -193,7 +194,19 @@ nested.sample <- function(cs,
           nsamples <- 0;
         nlive <-    dim(cs)[[1]]
         weight <- exp(-1.0*nsamples/nlive) - exp(-1.0*(nsamples+1)/nlive)
+
         cout <- rbind(cout, data.frame(c(r[[2]][1,], w=weight)))
+        result_ll = ifelse(cout$ll==-Inf,0, cout$ll)
+
+        evidence = sum(cout$w * result_ll)
+        change_factor = (evidence-previous_evidence)/previous_evidence
+        changefactors = c(changefactors, change_factor)
+        cfl = length(changefactors)
+        #print(evidence)
+        if(cfl > 10 && all(diff(changefactors[cfl-10:cfl]) < 0) && 1e-180 > change_factor ){
+          break;
+        }
+        previous_evidence = evidence;
       }
     return (list(cs=cs, cout=data.frame(cout,
                           row.names=NULL)));

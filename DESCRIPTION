@@ -18,5 +18,6 @@ Collate:
 Imports:
     infotheo,
     MASS,
-    gmp
+    gmp,
+    classInt
 RoxygenNote: 6.0.1

@@ -26,7 +26,8 @@ Create_P = function(l,m,n, Rxy, y_zx_depenendent = FALSE){
 
 
     if(y_zx_depenendent){
-      y_d = rxy[cbind(1:nrow(zxy),(l + (x_d*(l-1)) + zxy[,1]))]
+      y_d = rxy[cbind(1:nrow(zxy),l + x_d*zxy[,1])]
+      #y_d = rxy[cbind(1:nrow(zxy),(l + (x_d*(l-1)) + zxy[,1]))]
     }else{
       y_d = rxy[cbind(1:nrow(zxy),l + x_d)]
     }
@@ -50,17 +51,23 @@ Create_P = function(l,m,n, Rxy, y_zx_depenendent = FALSE){
 estimate_integral = function(N,S,d,llf,sample_theta){
   lpf = function(t) 1 # Prior is uniform, thus constant
 
+  sig = d^(-0.5)/10 # according to Skilling (2009), we use factor 10 to be far less than C^-0.5
+  H = ceiling(-d * log(sig) * sqrt(d))
+  S_calculated = 100 + d
+  N_calculated = d*100 #H * S_calculated;
   # Create Data Frame 'cs' of starting point to work with RNested
-  points = starting_points(S,d, sample_theta)
+  points = starting_points(S_calculated,d, sample_theta)
   starting_ll = apply(t(points), 2, llf)
-  starting_lp = rep(0.0, S);
+  starting_lp = rep(0.0, S_calculated);
 
   cs = data.frame(p=I(points), ll=starting_ll, lpr=starting_lp)
   sampler = make_sampler(d, 1000,sample_theta);
-  estimate = nested.sample(cs = cs,llf = llf,lpf = lpf, N = N, psampler = sampler)
+  estimate = nested.sample(cs = cs,llf = llf,lpf = lpf, N = N_calculated, psampler = sampler)
   # Calculate the evidence according to Skilling (2005)
-  evidence = sum(estimate$cout$w * exp(estimate$cout$ll)) #increment Z by Li*wi
-  evidence = evidence+ (exp(-N/S) * sum(exp(cs$ll))/N)
+  result_ll = ifelse(estimate$cout$ll==-Inf,0, estimate$cout$ll)
+  start_ll = ifelse(cs$ll == -Inf, 0, cs$ll)
+  evidence = sum(estimate$cout$w * result_ll) #increment Z by Li*wi
+  evidence = evidence+ (exp(-N/S_calculated) * sum(start_ll)/N)
   return (evidence)
 }
 ##' @keywords internal
@@ -79,7 +86,36 @@ starting_points = function(N, d, sample_theta){
 ##' @param d number of dimensions of theta
 ##' @param N function to sample new theta
 make_proposer = function(d, sample_theta){
+  current_prev = NULL
+  current_now = NULL
   proposer = function(current){
+    if(!is.null(current_now) && current_now == current){
+      #the last proposed point did not have a higher likelihood
+      #give up walking, and restart with random sample
+      return (sample_theta(d))
+    }else{
+      #the last proposed point did have a higher likelihood
+      current_prev = current_now
+      current_now = current
+      if(is.null(current_prev)){
+        # first time sampling for this starting point
+        # let's walk into a random direction
+        step_size = 0.1 * 1/d #how big the next step in the space should be
+        step_sample = unlist(sample_theta(d)); #directions for next step
+        step_sample = step_sample / step_size # scaled step according to step_size
+        new_sample = unlist(current) + step_sample
+        new_sample = new_sample/sum(new_sample) # normalized to sum 1
+        return (list(new_sample))
+      }
+      #keep walking into same direction as previously
+      direction = current_now - current_prev;
+      new_sample = current_now + direction;
+      # in case we walked out of the valid sample space
+      new_sample[new_sample<0] = 0
+      new_sample = new_sample/sum(new_sample)
+      return (list(new_sample))
+    }
+
     step_size = 0.1 * 1/d #how big the next step in the space should be
     step_sample = unlist(sample_theta(d)); #directions for next step
     step_sample = step_sample / step_size # scaled step according to step_size
@@ -109,7 +145,6 @@ make_sampler = function(d,s,sample_theta){
 ##' @param P Probability matrix
 ##' @param Q Histogram of unique observations
 XY_product = function(theta_xy, P, Q){
-  factor = ncol(P)/length(theta_xy);
   sums = P %*% theta_xy
   powered_sums = sums ^ Q
   product = prod(powered_sums)
@@ -124,4 +159,10 @@ Z_product = function(theta_z, Q){
   powered = unlist(theta_z)^Q
   product = prod(powered)
   return (product)
+}
+
+sample_theta = function(d){
+  t = runif(d)
+  t = t/sum(t) #make sure that all probablities add up one
+  return (list(t))
 }

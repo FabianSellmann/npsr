@@ -4,7 +4,7 @@
 \alias{M_excl}
 \title{M_excl}
 \usage{
-M_excl(Q, l, m, n, N = sum(Q), S = sum(Q))
+M_excl(Q, l, m, n, N = sum(Q), S = sum(Q), int_z)
 }
 \arguments{
 \item{Q}{Histogram of dataset (l\*m\*n vector)}

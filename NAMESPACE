@@ -2,6 +2,7 @@
 
 export(nps.test)
 import(MASS)
+import(classInt)
 import(gmp)
 import(infotheo)
 import(stats)

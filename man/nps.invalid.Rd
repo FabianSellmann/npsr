@@ -4,7 +4,7 @@
 \alias{nps.invalid}
 \title{M_Invalid}
 \usage{
-nps.invalid(Q, l, m, n, N = sum(Q), S = sum(Q))
+nps.invalid(Q, l, m, n, N = sum(Q), S = sum(Q), int_z)
 }
 \arguments{
 \item{Q}{List of unique observations, should be l\*m\*n length}
